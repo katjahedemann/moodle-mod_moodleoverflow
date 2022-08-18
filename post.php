@@ -760,6 +760,14 @@ if (!empty($moodleoverflow->intro)) {
     echo $OUTPUT->box(format_module_intro('moodleoverflow', $moodleoverflow, $cm->id), 'generalbox', 'intro');
 }
 
+// added tags (2022 Katja Hedemann)
+if (!empty($post)) {
+    $data = (object) [
+        'tags' => core_tag_tag::get_item_tags_array('mod_moodleoverflow', 'moodleoverflow_posts', $post->id)
+    ];
+    $mformpost->set_data($data);
+}
+
 // Display the form.
 $mformpost->display();
 

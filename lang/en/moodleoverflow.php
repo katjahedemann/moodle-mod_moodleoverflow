@@ -63,6 +63,8 @@ $string['noviewdiscussionspermission'] = 'You do not have the permission to view
 $string['addanewdiscussion']    = 'Add a new discussion topic';
 $string['nodiscussions']        = 'There are no discussion topics yet in this forum.';
 $string['headerdiscussion']     = 'Discussion';
+// added string for tags (2022 Katja Hedemann)
+$string['headertags']           = 'Tags';
 $string['headerstartedby']      = 'Started by';
 $string['headerreplies']        = 'Replies';
 $string['headerlastpost']       = 'Last post';
@@ -154,6 +156,8 @@ $string['couldnotdeletereplies']   = 'Sorry, that cannot be deleted as people ha
 
 // Strings for the classes/mod_form.php.
 $string['subject']                     = 'Subject';
+// added string for tags (2022 Katja Hedemann)
+$string['tags']                        = 'Tags';
 $string['reply']                       = 'Comment';
 $string['replyfirst']                  = 'Answer';
 $string['message']                     = 'Message';
@@ -163,6 +167,8 @@ $string['posttomoodleoverflow']        = 'Post to forum';
 $string['posts'] = 'Posts';
 $string['erroremptysubject']           = 'Post subject cannot be empty.';
 $string['erroremptymessage']           = 'Post message cannot be empty';
+// added string for tags (2022 Katja Hedemann)
+$string['erroremptytags']              = 'Tags cannot be empty';
 $string['yournewtopic']                = 'Your new discussion topic';
 
 // Strings for the classes/ratings.php.
@@ -180,6 +186,8 @@ $string['ratingtoold']              = 'Ratings can only be changed within 30 min
 
 // Strings for the discussion.php.
 $string['invaliddiscussionid']         = 'Discussion ID was incorrect';
+// added string for tags (2022 Katja Hedemann)
+$string['tagname']                     = 'Tags';
 $string['notexists']                   = 'Discussion no longer exists';
 $string['discussionname']              = 'Discussion name';
 $string['discussionlocked']            = 'This discussion has been locked so you can no longer reply to it.';
