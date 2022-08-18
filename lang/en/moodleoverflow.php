@@ -63,6 +63,8 @@ $string['noviewdiscussionspermission'] = 'You do not have the permission to view
 $string['addanewdiscussion']    = 'Add a new discussion topic';
 $string['nodiscussions']        = 'There are no discussion topics yet in this forum.';
 $string['headerdiscussion']     = 'Discussion';
+// added string for tags (2022 Katja Hedemann)
+$string['headertags']           = 'Tags';
 $string['headerstartedby']      = 'Started by';
 $string['headerreplies']        = 'Replies';
 $string['headerlastpost']       = 'Last post';
@@ -154,6 +156,8 @@ $string['couldnotdeletereplies']   = 'Sorry, that cannot be deleted as people ha
 
 // Strings for the classes/mod_form.php.
 $string['subject']                     = 'Subject';
+// added string for tags (2022 Katja Hedemann)
+$string['tags']                        = 'Tags';
 $string['reply']                       = 'Comment';
 $string['replyfirst']                  = 'Answer';
 $string['message']                     = 'Message';
@@ -163,6 +167,8 @@ $string['posttomoodleoverflow']        = 'Post to forum';
 $string['posts'] = 'Posts';
 $string['erroremptysubject']           = 'Post subject cannot be empty.';
 $string['erroremptymessage']           = 'Post message cannot be empty';
+// added string for tags (2022 Katja Hedemann)
+$string['erroremptytags']              = 'Tags cannot be empty';
 $string['yournewtopic']                = 'Your new discussion topic';
 
 // Strings for the classes/ratings.php.
@@ -180,6 +186,8 @@ $string['ratingtoold']              = 'Ratings can only be changed within 30 min
 
 // Strings for the discussion.php.
 $string['invaliddiscussionid']         = 'Discussion ID was incorrect';
+// added string for tags (2022 Katja Hedemann)
+$string['tagname']                     = 'Tags';
 $string['notexists']                   = 'Discussion no longer exists';
 $string['discussionname']              = 'Discussion name';
 $string['discussionlocked']            = 'This discussion has been locked so you can no longer reply to it.';
@@ -412,9 +420,8 @@ $string['anonymous:only_questions'] = 'Only questioners (Irreversible!)';
 $string['anonymous:everything'] = 'Questioners and answerers (Irreversible!)';
 $string['anonym_you'] = 'Anonymous (You)';
 $string['allowanonymous'] = 'Allow anonymous';
-$string['allowanonymous_desc'] = 'Allow teachers to put moodleoverflow forums into anonymous question or full anonymous mode. Once enabled, anonymous forums will stay anonymous, even when this setting is disabled. If you really want to, you can reset anonymity in all forums <a href="{$a}">here</a>.';
+$string['allowanonymous_desc'] = 'Allow teachers to put moodleoverflow forums into anonymous question or full anonymous mode';
 $string['questioner'] = 'Questioner';
 $string['answerer'] = 'Answerer #{$a}';
 $string['desc:only_questions'] = 'The name of questioners will not be displayed in their question and comments.';
 $string['desc:anonymous'] = 'No names will be displayed.';
-$string['resetanonymous_warning'] = 'Are you sure? If you are in production, <b>this is most certainly a bad decision</b> because your students and teachers posted their questions and answers, believing they would remain anonymous. <br><br><b>{$a->fullanoncount}</b> forums are currently fully anonymized, and in <b>{$a->questionanoncount}</b> additional forums the questioners are anonymized.<br><br><b>In all these forums, the real names of posters will be displayed again, even in already existing posts!</b><br><br>There is no way of reverting those changes!</br>';
