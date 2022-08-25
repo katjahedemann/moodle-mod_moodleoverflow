@@ -127,6 +127,11 @@ class mod_moodleoverflow_post_form extends moodleform {
         if (empty($data['subject'])) {
             $errors['subject'] = get_string('erroremptysubject', 'moodleoverflow');
         }
+        
+        // added error message for empty tags (2022 Katja Hedemann)
+        if (empty($data['tags'])) {
+            $errors['tags'] = get_string('erroremptytags', 'moodleoverflow');
+        }
 
         // added error message for empty tags (2022 Katja Hedemann)
         if (empty($data['tags'])) {

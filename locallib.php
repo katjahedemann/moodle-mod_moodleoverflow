@@ -672,7 +672,7 @@ function moodleoverflow_add_discussion($discussion, $modulecontext, $userid = nu
         throw new moodle_exception('invalidcoursemodule');
     }
 
-    // Create the post-object.
+    // Create the post object.
     $post = new stdClass();
     $post->discussion = 0;
     $post->parent = 0;
@@ -695,6 +695,8 @@ function moodleoverflow_add_discussion($discussion, $modulecontext, $userid = nu
     $discussionobject->moodleoverflow = $discussion->moodleoverflow;
     $discussionobject->name = $discussion->name;
     $discussionobject->firstpost = $post->id;
+    // added tags to discussion object (2022 Katja Hedemann)
+    $discussionobject->tags = $discussion->tags;
     $discussionobject->userid = $post->userid;
     // added tags to discussion object (2022 Katja Hedemann)
     $discussionobject->tags = $discussion->tags;
@@ -1544,6 +1546,7 @@ function moodleoverflow_add_new_post($post) {
     $discussion = $DB->get_record('moodleoverflow_discussions', array('id' => $post->discussion));
     $moodleoverflow = $DB->get_record('moodleoverflow', array('id' => $discussion->moodleoverflow));
     $cm = get_coursemodule_from_instance('moodleoverflow', $moodleoverflow->id);
+
     // added context for tags l.1573-1576 (2022 Katja Hedemann)
     $context    = context_module::instance($cm->id);
 
@@ -1595,6 +1598,8 @@ function moodleoverflow_update_post($newpost) {
     $post = $DB->get_record('moodleoverflow_posts', array('id' => $newpost->id));
     $discussion = $DB->get_record('moodleoverflow_discussions', array('id' => $post->discussion));
     $moodleoverflow = $DB->get_record('moodleoverflow', array('id' => $discussion->moodleoverflow));
+    // added context for tags l. 1628-1631 (2022 Katja Hedemann)
+    $context    = context_module::instance($cm->id);
 
     // Allowed modifiable fields.
     $modifiablefields = [
@@ -1631,6 +1636,11 @@ function moodleoverflow_update_post($newpost) {
     $istracked = \mod_moodleoverflow\readtracking::moodleoverflow_is_tracked($moodleoverflow);
     if ($cantrack AND $istracked) {
         \mod_moodleoverflow\readtracking::moodleoverflow_mark_post_read($USER->id, $post);
+    }
+
+    // added tags (2022 Katja Hedemann)
+    if (isset($newpost->tags)) {
+        core_tag_tag::set_item_tags('mod_moodleoverflow', 'moodleoverflow_posts', $post->id, $context, $newpost->tags);
     }
 
     // The post has been edited successfully.
@@ -2012,3 +2022,5 @@ function moodleoverflow_update_all_grades() {
         moodleoverflow_update_all_grades_for_cm($cmid->id);
     }
 }
+
+
