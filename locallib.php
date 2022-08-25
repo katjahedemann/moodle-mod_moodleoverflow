@@ -69,8 +69,8 @@ function moodleoverflow_get_discussions($cm, $page = -1, $perpage = 0) {
     } else {
         $allnames = get_all_user_name_fields(true, 'u');
     }
-    $postdata = 'p.id, p.modified, p.discussion, p.userid';
-    $discussiondata = 'd.name, d.timemodified, d.timestart, d.usermodified';
+    $postdata = 'p.id, p.modified, p.discussion, p.userid, p.parent';
+    $discussiondata = 'd.name, d.timemodified, d.timestart, d.usermodified, d.firstpost';
     $userdata = 'u.email, u.picture, u.imagealt';
 
     if ($CFG->branch >= 311) {
@@ -290,7 +290,10 @@ function moodleoverflow_print_latest_discussions($moodleoverflow, $cm, $page = -
             '/mod/moodleoverflow/discussion.php?d=' . $discussion->discussion . '#unread';
         $link = '/mod/moodleoverflow/markposts.php?m=';
         $preparedarray[$i]['markreadlink'] = $CFG->wwwroot . $link . $moodleoverflow->id . '&d=' . $discussion->discussion;
-
+      
+        // Output for the Tags in discussion overview (2022 Katja Hedemann)
+        $preparedarray[$i]['taglist'] = $OUTPUT->tag_list(core_tag_tag::get_item_tags('mod_moodleoverflow', 'moodleoverflow_posts', $discussion->firstpost), '');
+        
         // Check the date of the latest post. Just in case the database is not consistent.
         $usedate = (empty($discussion->timemodified)) ? $discussion->modified : $discussion->timemodified;
 
@@ -354,7 +357,7 @@ function moodleoverflow_print_latest_discussions($moodleoverflow, $cm, $page = -
 
     // Print the template.
     echo $renderer->render_discussion_list($mustachedata);
-
+  
     // Show the paging bar if paging is activated.
     if ($page != -1) {
         echo $OUTPUT->paging_bar($numberofdiscussions, $page, $perpage, "view.php?id=$cm->id");
@@ -678,6 +681,8 @@ function moodleoverflow_add_discussion($discussion, $modulecontext, $userid = nu
     $post->modified = $timenow;
     $post->message = $discussion->message;
     $post->attachments = $discussion->attachments;
+    // added tags to post object (2022 Katja Hedemann)
+    $post->tags = $discussion->tags;
     $post->moodleoverflow = $moodleoverflow->id;
     $post->course = $moodleoverflow->course;
 
@@ -691,6 +696,8 @@ function moodleoverflow_add_discussion($discussion, $modulecontext, $userid = nu
     $discussionobject->name = $discussion->name;
     $discussionobject->firstpost = $post->id;
     $discussionobject->userid = $post->userid;
+    // added tags to discussion object (2022 Katja Hedemann)
+    $discussionobject->tags = $discussion->tags;
     $discussionobject->timemodified = $timenow;
     $discussionobject->timestart = $timenow;
     $discussionobject->usermodified = $post->userid;
@@ -702,6 +709,11 @@ function moodleoverflow_add_discussion($discussion, $modulecontext, $userid = nu
     $DB->set_field('moodleoverflow_posts', 'discussion', $post->discussion, array('id' => $post->id));
 
     moodleoverflow_add_attachment($post, $moodleoverflow, $cm);
+
+    // added tags (2022 Katja Hedemann)
+    if (isset($discussion->tags)) {
+        core_tag_tag::set_item_tags('mod_moodleoverflow', 'moodleoverflow_posts', $post->id, context_module::instance($cm->id), $discussion->tags);
+    }
 
     // Mark the created post as read.
     $cantrack = \mod_moodleoverflow\readtracking::moodleoverflow_can_track_moodleoverflows($moodleoverflow);
@@ -858,6 +870,11 @@ function moodleoverflow_print_discussion($course, $cm, $moodleoverflow, $discuss
     // Format the subject.
     $post->moodleoverflow = $moodleoverflow->id;
     $post->subject = format_string($post->subject);
+
+    // added output for tags (2022 Katja Hedemann)
+    echo $OUTPUT->tag_list(core_tag_tag::get_item_tags('mod_moodleoverflow', 'moodleoverflow_posts', $post->id));
+
+    echo "<br>";
 
     // Check if the post was read.
     $postread = !empty($post->postread);
@@ -1527,6 +1544,8 @@ function moodleoverflow_add_new_post($post) {
     $discussion = $DB->get_record('moodleoverflow_discussions', array('id' => $post->discussion));
     $moodleoverflow = $DB->get_record('moodleoverflow', array('id' => $discussion->moodleoverflow));
     $cm = get_coursemodule_from_instance('moodleoverflow', $moodleoverflow->id);
+    // added context for tags l.1573-1576 (2022 Katja Hedemann)
+    $context    = context_module::instance($cm->id);
 
     // Add some variables to the post.
     $post->created = $post->modified = time();
@@ -1549,6 +1568,11 @@ function moodleoverflow_add_new_post($post) {
     $istracked = \mod_moodleoverflow\readtracking::moodleoverflow_is_tracked($moodleoverflow);
     if ($cantrack AND $istracked) {
         \mod_moodleoverflow\readtracking::moodleoverflow_mark_post_read($post->userid, $post);
+    }
+
+    // added tags (2022 Katja Hedemann)
+    if (isset($post->tags)) {
+        core_tag_tag::set_item_tags('mod_moodleoverflow', 'moodleoverflow_posts', $post->id, $context, $post->tags);
     }
 
     // Return the id of the created post.
