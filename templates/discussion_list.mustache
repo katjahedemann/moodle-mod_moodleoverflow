@@ -72,6 +72,10 @@
                 <th class="header topic" scope="col">
                     {{#str}} headerdiscussion, moodleoverflow {{/str}}
                 </th>
+                <!--Adding Tags to the List (2022 Katja Hedemann-->
+                <th class="header tags" scope="col">
+                    {{#str}} headertags, moodleoverflow {{/str}}
+                </th>
                 <th class="header author" colspan="2" scope="col">
                     {{#str}} headerstartedby, moodleoverflow {{/str}}
                 </th>
@@ -186,6 +190,12 @@
                     <a href="{{ subjectlink }}">{{{ subjecttext }}}</a>
                 </td>
 
+                <!--Adding Tags to the List (2022 Katja Hedemann-->
+                 
+                <td class="taglist">
+                    {{{ taglist }}}
+                </td>
+            
                 <td class="picture">
                     {{{ picture }}}
                 </td>

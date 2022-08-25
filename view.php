@@ -59,8 +59,6 @@ if ($id) {
     throw new moodle_exception('missingparameter');
 }
 
-
-
 // Require a login.
 require_login($course, true, $cm);
 
@@ -112,3 +110,5 @@ moodleoverflow_print_latest_discussions($moodleoverflow, $cm, $page, get_config(
 
 // Finish the page.
 echo $OUTPUT->footer();
+
+
