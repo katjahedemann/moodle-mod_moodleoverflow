@@ -73,8 +73,9 @@ class mod_moodleoverflow_post_form extends moodleform {
         $modform->addElement('header', 'tagshdr', get_string('tags', 'tag'));
  
         $modform->addElement('tags', 'tags', get_string('tags'),
-                array('itemtype' => 'moodleoverflow_posts', 'component' => 'mod_moodleoverflow'));
-        // tags are required
+            array('itemtype' => 'moodleoverflow_posts', 'component' => 'mod_moodleoverflow'));
+        
+        // tags are required (2022 Katja Hedemann)
         $modform->addRule('tags', get_string('required'), 'required', null,'client');
 
         // Submit buttons.

@@ -15,21 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version and other meta-info about the plugin
- *
- * Setting the $plugin->version to 0 prevents the plugin from being installed.
- * See https://docs.moodle.org/dev/version.php for more info.
+ * Tag areas in component mod_moodleoverflow
  *
  * @package   mod_moodleoverflow
- * @copyright 2017 Kennet Winter <k_wint10@uni-muenster.de>
+ * @copyright 2017 Andrew Hancox <andrewdchancox@googlemail.com>
+ *            2022 Katja Hedemann <katja.hedemann@gmx.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_moodleoverflow';
-$plugin->version = 2022080904;
-$plugin->release = 'v4.0-r1';
-$plugin->requires = 2020061500; // Requires Moodle 3.9+.
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array();
+
+$tagareas = array(
+    array(
+        'itemtype' => 'moodleoverflow_posts',
+        'component' => 'mod_moodleoverflow',
+        'callback' => 'mod_moodleoverflow_get_tagged_posts',
+        'callbackfile' => '/mod/moodleoverflow/locallib.php',
+    ),
+);
