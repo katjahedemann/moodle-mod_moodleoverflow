@@ -301,6 +301,8 @@ $string['subscriptionoptional']         = 'Optional subscription';
 $string['subscriptionforced']           = 'Forced subscription';
 $string['subscriptionauto']             = 'Auto subscription';
 $string['subscriptiondisabled']         = 'Subscription disabled';
+// added tag area string (2022 Katja Hedemann)
+$string['tagarea_moodleoverflow_posts'] = 'Moodleoverflow posts';
 $string['trackingoff']                  = 'Off';
 $string['trackingon']                   = 'Forced';
 $string['trackingoptional']             = 'Optional';
