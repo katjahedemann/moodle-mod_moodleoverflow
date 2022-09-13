@@ -698,8 +698,6 @@ function moodleoverflow_add_discussion($discussion, $modulecontext, $userid = nu
     // added tags to discussion object (2022 Katja Hedemann)
     $discussionobject->tags = $discussion->tags;
     $discussionobject->userid = $post->userid;
-    // added tags to discussion object (2022 Katja Hedemann)
-    $discussionobject->tags = $discussion->tags;
     $discussionobject->timemodified = $timenow;
     $discussionobject->timestart = $timenow;
     $discussionobject->usermodified = $post->userid;
@@ -712,7 +710,7 @@ function moodleoverflow_add_discussion($discussion, $modulecontext, $userid = nu
 
     moodleoverflow_add_attachment($post, $moodleoverflow, $cm);
 
-    // added tags (2022 Katja Hedemann)
+    // added setter for tags (2022 Katja Hedemann)
     if (isset($discussion->tags)) {
         core_tag_tag::set_item_tags('mod_moodleoverflow', 'moodleoverflow_posts', $post->id, context_module::instance($cm->id), $discussion->tags);
     }
@@ -1547,8 +1545,8 @@ function moodleoverflow_add_new_post($post) {
     $moodleoverflow = $DB->get_record('moodleoverflow', array('id' => $discussion->moodleoverflow));
     $cm = get_coursemodule_from_instance('moodleoverflow', $moodleoverflow->id);
 
-    // added context for tags l.1573-1576 (2022 Katja Hedemann)
-    $context    = context_module::instance($cm->id);
+    // added context for tags l.1574 ff. (2022 Katja Hedemann)
+    $context = context_module::instance($cm->id);
 
     // Add some variables to the post.
     $post->created = $post->modified = time();
@@ -1573,7 +1571,7 @@ function moodleoverflow_add_new_post($post) {
         \mod_moodleoverflow\readtracking::moodleoverflow_mark_post_read($post->userid, $post);
     }
 
-    // added tags (2022 Katja Hedemann)
+    // added setter for tags (2022 Katja Hedemann)
     if (isset($post->tags)) {
         core_tag_tag::set_item_tags('mod_moodleoverflow', 'moodleoverflow_posts', $post->id, $context, $post->tags);
     }
@@ -1598,8 +1596,10 @@ function moodleoverflow_update_post($newpost) {
     $post = $DB->get_record('moodleoverflow_posts', array('id' => $newpost->id));
     $discussion = $DB->get_record('moodleoverflow_discussions', array('id' => $post->discussion));
     $moodleoverflow = $DB->get_record('moodleoverflow', array('id' => $discussion->moodleoverflow));
-    // added context for tags l. 1628-1631 (2022 Katja Hedemann)
-    $context    = context_module::instance($cm->id);
+    // added course module for tags l. 1643 ff. (2022 Katja Hedemann)
+    $cm = get_coursemodule_from_instance('moodleoverflow', $moodleoverflow->id);
+    // added context for tags l. 1643 ff. (2022 Katja Hedemann)
+    $context = context_module::instance($cm->id);
 
     // Allowed modifiable fields.
     $modifiablefields = [
@@ -1638,7 +1638,7 @@ function moodleoverflow_update_post($newpost) {
         \mod_moodleoverflow\readtracking::moodleoverflow_mark_post_read($USER->id, $post);
     }
 
-    // added tags (2022 Katja Hedemann)
+    // added setter for tags (2022 Katja Hedemann)
     if (isset($newpost->tags)) {
         core_tag_tag::set_item_tags('mod_moodleoverflow', 'moodleoverflow_posts', $post->id, $context, $newpost->tags);
     }
@@ -2030,7 +2030,7 @@ function moodleoverflow_update_all_grades() {
  * tagged with a specific tag.
  * 
  * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
- *            2022 Katja Hedemann adjustments for Moodleoverflow 
+ * adjustments for Moodleoverflow 2022 Katja Hedemann  
  *
  * @param core_tag_tag $tag
  * @param bool $exclusivemode if set to true it means that no other entities tagged with this tag
